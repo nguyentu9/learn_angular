@@ -13,7 +13,7 @@ export class ServersComponent implements OnInit {
   servers: string[] = ['Server 1', 'Server 2'];
 
   toggle = false;
-  arrLog: number[] = [];
+  arrLog: string[] = [];
 
   constructor() {
     setTimeout(() => {
@@ -34,6 +34,6 @@ export class ServersComponent implements OnInit {
   }
   onToggle() {
     this.toggle = !this.toggle;
-    this.arrLog.push(this.arrLog.length + 1);
+    this.arrLog.push(new Date().toString());
   }
 }

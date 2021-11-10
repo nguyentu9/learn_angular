@@ -16,5 +16,5 @@
     architecto is.</p>
 <hr>
 
-<h6 *ngFor="let log of arrLog" [ngStyle]="{backgroundColor: log >= 5 ?'blue': 'transparent'}"
-    [ngClass]="{'white-text': log >=5}">{{ log }} </h6>
+<h6 *ngFor="let log of arrLog; let i = index" [ngStyle]="{backgroundColor: i >= 4 ?'blue': 'transparent'}"
+    [ngClass]="{'white-text': i >=4}">{{ log }} </h6>
