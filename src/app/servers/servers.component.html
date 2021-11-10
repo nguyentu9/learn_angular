@@ -9,3 +9,12 @@
 </ng-template>
 
 <app-server *ngFor="let server of servers"></app-server>
+
+<button (click)="onToggle()" class='btn btn-primary'>Display Details</button>
+<p *ngIf="toggle">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias minus rem velit asperiores sit
+    incidunt libero magni
+    architecto is.</p>
+<hr>
+
+<h6 *ngFor="let log of arrLog" [ngStyle]="{backgroundColor: log >= 5 ?'blue': 'transparent'}"
+    [ngClass]="{'white-text': log >=5}">{{ log }} </h6>

@@ -12,6 +12,9 @@ export class ServersComponent implements OnInit {
   serverCreated = false;
   servers: string[] = ['Server 1', 'Server 2'];
 
+  toggle = false;
+  arrLog: number[] = [];
+
   constructor() {
     setTimeout(() => {
       this.allowNewServer = true;
@@ -28,5 +31,9 @@ export class ServersComponent implements OnInit {
   onUpdateServerName(event: Event) {
     console.log(event);
     this.serverName = (<HTMLInputElement>event.target).value;
+  }
+  onToggle() {
+    this.toggle = !this.toggle;
+    this.arrLog.push(this.arrLog.length + 1);
   }
 }
