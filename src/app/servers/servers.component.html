@@ -5,3 +5,7 @@
 <p>{{ serverCreationStatus }}</p>
 <app-server></app-server>
 <app-server></app-server>
+
+<input type="text" class='form-control' [(ngModel)]="userName">
+<p>{{ userName }}</p>
+<button class='btn btn-primary' [disabled]="userName.length == 0" (click)="userName = ''">Reset</button>
