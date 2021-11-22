@@ -13,6 +13,7 @@ import {
   OnDestroy,
   ViewChild,
   ElementRef,
+  ContentChild,
 } from '@angular/core';
 
 @Component({
@@ -41,6 +42,9 @@ export class ServerElementComponent
   @ViewChild('heading', { static: false })
   header!: ElementRef;
 
+  @ContentChild('contentParagraph')
+  paragraph!: ElementRef;
+
   constructor() {
     this.element = { type: '', name: '', content: '' };
     console.log('===Constructor===');
@@ -60,6 +64,7 @@ export class ServerElementComponent
 
   ngAfterContentInit() {
     console.log('ngAfterContentInit');
+    console.log('Text Content: ', this.paragraph.nativeElement.textContent);
   }
 
   ngAfterContentChecked() {
