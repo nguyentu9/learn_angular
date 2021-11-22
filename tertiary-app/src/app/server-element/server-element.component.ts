@@ -11,6 +11,8 @@ import {
   AfterViewInit,
   AfterViewChecked,
   OnDestroy,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 
 @Component({
@@ -30,8 +32,14 @@ export class ServerElementComponent
     AfterViewChecked,
     OnDestroy
 {
-  @Input('srvElement') element: { type: string; name: string; content: string };
-  @Input() name: string = '';
+  @Input('srvElement')
+  element: { type: string; name: string; content: string };
+
+  @Input()
+  name: string = '';
+
+  @ViewChild('heading', { static: false })
+  header!: ElementRef;
 
   constructor() {
     this.element = { type: '', name: '', content: '' };
@@ -60,6 +68,7 @@ export class ServerElementComponent
 
   ngAfterViewInit() {
     console.log('ngAfterViewInit');
+    console.log('Text Content: ', this.header.nativeElement.textContent);
   }
 
   ngAfterViewChecked() {
