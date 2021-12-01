@@ -10,7 +10,11 @@ export class HomeComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {}
-  onLoadServers() {
-    this.router.navigate(['/servers']);
+  onLoadServer(id: number) {
+    // complex calcucation
+    this.router.navigate(['/servers', id, 'edit'], {
+      queryParams: { allowEdit: '1' },
+      fragment: 'loading',
+    });
   }
 }
