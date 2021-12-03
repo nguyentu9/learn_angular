@@ -1,5 +1,10 @@
+interface Server {
+  id: number;
+  name: string;
+  status: string;
+}
 export class ServersService {
-  private servers = [
+  private servers: Server[] = [
     {
       id: 1,
       name: 'Productionserver',
