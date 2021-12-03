@@ -3,7 +3,6 @@
 <div class="row">
     <div class="col-xs-12">
         <hr>
-        <app-recipe-item [routerLink]="['/recipes', recipeId]" *ngFor="let recipeEl of recipes; index as recipeId"
-            [recipe]="recipeEl"></app-recipe-item>
+        <app-recipe-item *ngFor="let recipeEl of recipes; index as i" [index]="i" [recipe]="recipeEl"></app-recipe-item>
     </div>
 </div>
