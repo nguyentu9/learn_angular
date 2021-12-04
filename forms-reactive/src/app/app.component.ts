@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  AsyncValidatorFn,
+  FormArray,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +27,11 @@ export class AppComponent implements OnInit {
           Validators.required,
           this.forbiddenName.bind(this),
         ]),
-        email: new FormControl(null, [Validators.required, Validators.email]),
+        email: new FormControl(
+          null,
+          [Validators.required, Validators.email],
+          this.forbiddenEmail.call(this)
+        ),
       }),
       gender: new FormControl('male'),
       hobbies: new FormArray([]),
@@ -45,4 +57,28 @@ export class AppComponent implements OnInit {
     }
     return null;
   }
+
+  forbiddenEmail(): AsyncValidatorFn {
+    return (control: AbstractControl) =>
+      new Promise<any>((resolve, reject) => {
+        setTimeout(() => {
+          if (control.value === 'test@test.com') {
+            resolve({ emailIsForbidden: true });
+          } else {
+            resolve(null);
+          }
+        }, 1500);
+      });
+  }
+  //   forbiddenEmail(control: FormControl): Observable<any> | Promise<any> | null {
+  //     return new Promise<any>((resolve, reject) => {
+  //       setTimeout(() => {
+  //         if (control.value === 'test@test.com') {
+  //           resolve({ emailIsForbidden: true });
+  //         } else {
+  //           resolve(null);
+  //         }
+  //       }, 1500);
+  //     });
+  //   }
 }
