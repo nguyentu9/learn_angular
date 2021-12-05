@@ -9,7 +9,7 @@ import { Post } from './post.model';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  loadedPosts = [];
+  loadedPosts: Post[] = [];
   private apiURL =
     'https://nglifecircle-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json';
   constructor(private http: HttpClient) {}
@@ -21,12 +21,13 @@ export class AppComponent implements OnInit {
   onCreatePost(postData: Post) {
     // Send Http request
     this.http
-      .post<{ [key: string]: Post }>(this.apiURL, postData)
+      .post<{ name: string }>(this.apiURL, postData)
       .subscribe((responseData) => console.log(responseData));
   }
 
   onFetchPosts() {
     // Send Http request
+    this.fetchPosts();
   }
 
   onClearPosts() {
@@ -39,19 +40,19 @@ export class AppComponent implements OnInit {
       .pipe(
         map((responseData) => {
           const postsArray = [];
-          //   for (const key in responseData) {
-          //     if (responseData.hasOwnProperty(key)) {
-          //       postsArray.push({
-          //         ...responseData[key as keyof Object],
-          //         id: key,
-          //       });
-          //     }
-          //   }
-          let key = <keyof Object>Object.keys(responseData)[0];
-          postsArray.push({ ...responseData[key], id: key });
+          for (const key in responseData) {
+            if (responseData.hasOwnProperty(key)) {
+              postsArray.push({
+                ...responseData[key as keyof Object],
+                id: key,
+              });
+            }
+          }
+          //   let key = <keyof Object>Object.keys(responseData)[0];
+          //   postsArray.push({ ...responseData[key], id: key });
           return postsArray;
         })
       )
-      .subscribe((posts) => console.log(posts));
+      .subscribe((posts: Post[]) => (this.loadedPosts = posts));
   }
 }
