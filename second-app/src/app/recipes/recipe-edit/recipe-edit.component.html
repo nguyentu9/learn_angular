@@ -19,15 +19,15 @@
                 <div class="col-xs-12">
                     <div class="form-group">
                         <label for="imageURL">Image URL</label>
-                        <input formControlName="imageURL" type="text" class="form-control" id="imageURL"
-                            name="imageURL">
+                        <input formControlName="imageURL" type="text" class="form-control" id="imageURL" name="imageURL"
+                            #imagePath>
                     </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-xs-12">
-                    <img src="" class="img-responsive">
+                    <img [src]="imagePath.value" class="img-responsive">
                 </div>
             </div>
 
