@@ -8,14 +8,17 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AppComponent implements OnInit {
   loadedPosts = [];
-
+  private apiURL =
+    'https://nglifecircle-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json';
   constructor(private http: HttpClient) {}
 
   ngOnInit() {}
 
   onCreatePost(postData: { title: string; content: string }) {
     // Send Http request
-    console.log(postData);
+    this.http
+      .post(this.apiURL, postData)
+      .subscribe((responseData) => console.log(responseData));
   }
 
   onFetchPosts() {
