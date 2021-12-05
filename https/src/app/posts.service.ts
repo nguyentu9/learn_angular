@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Post } from './post.model';
-import { map } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { Subject, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -27,18 +27,23 @@ export class PostService {
 
   fetchPosts() {
     return this.http.get<{ [key: string]: Post }>(this.apiURL).pipe(
-      map((responseData) => {
-        const postsArray = [];
-        for (const key in responseData) {
-          if (responseData.hasOwnProperty(key)) {
-            postsArray.push({
-              ...responseData[key as keyof Object],
-              id: key,
-            });
+      map(
+        (responseData) => {
+          const postsArray = [];
+          for (const key in responseData) {
+            if (responseData.hasOwnProperty(key)) {
+              postsArray.push({
+                ...responseData[key as keyof Object],
+                id: key,
+              });
+            }
           }
-        }
-        return postsArray;
-      })
+          return postsArray;
+        },
+        catchError((errorRes) => {
+          return throwError(errorRes);
+        })
+      )
     );
   }
 
