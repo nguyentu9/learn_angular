@@ -20,22 +20,19 @@ export class PostService {
   }
 
   fetchPosts() {
-    this.http
-      .get<{ [key: string]: Post }>(this.apiURL)
-      .pipe(
-        map((responseData) => {
-          const postsArray = [];
-          for (const key in responseData) {
-            if (responseData.hasOwnProperty(key)) {
-              postsArray.push({
-                ...responseData[key as keyof Object],
-                id: key,
-              });
-            }
+    return this.http.get<{ [key: string]: Post }>(this.apiURL).pipe(
+      map((responseData) => {
+        const postsArray = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            postsArray.push({
+              ...responseData[key as keyof Object],
+              id: key,
+            });
           }
-          return postsArray;
-        })
-      )
-      .subscribe((posts: Post[]) => {});
+        }
+        return postsArray;
+      })
+    );
   }
 }
