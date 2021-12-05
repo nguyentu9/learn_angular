@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Post } from './post.model';
 import { catchError, map } from 'rxjs/operators';
@@ -26,25 +26,29 @@ export class PostService {
   }
 
   fetchPosts() {
-    return this.http.get<{ [key: string]: Post }>(this.apiURL).pipe(
-      map(
-        (responseData) => {
-          const postsArray = [];
-          for (const key in responseData) {
-            if (responseData.hasOwnProperty(key)) {
-              postsArray.push({
-                ...responseData[key as keyof Object],
-                id: key,
-              });
+    return this.http
+      .get<{ [key: string]: Post }>(this.apiURL, {
+        headers: new HttpHeaders({ 'Custom-Header': 'Hello' }),
+      })
+      .pipe(
+        map(
+          (responseData) => {
+            const postsArray = [];
+            for (const key in responseData) {
+              if (responseData.hasOwnProperty(key)) {
+                postsArray.push({
+                  ...responseData[key as keyof Object],
+                  id: key,
+                });
+              }
             }
-          }
-          return postsArray;
-        },
-        catchError((errorRes) => {
-          return throwError(errorRes);
-        })
-      )
-    );
+            return postsArray;
+          },
+          catchError((errorRes) => {
+            return throwError(errorRes);
+          })
+        )
+      );
   }
 
   deletePosts() {
