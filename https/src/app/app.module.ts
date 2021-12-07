@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptorService } from './auth-interceptor.service';
+import { LoggingInterceptorSerivce } from './logging-interceptor.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -14,6 +15,11 @@ import { AuthInterceptorService } from './auth-interceptor.service';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoggingInterceptorSerivce,
       multi: true,
     },
   ],
