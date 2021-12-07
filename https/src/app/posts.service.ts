@@ -1,7 +1,12 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpEventType,
+  HttpHeaders,
+  HttpParams,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Post } from './post.model';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
 
 @Injectable({
@@ -17,12 +22,16 @@ export class PostService {
 
   createAndStorePost(title: string, content: string) {
     const postData: Post = { title, content };
-    this.http.post<{ name: string }>(this.apiURL, postData).subscribe(
-      (responseData) => console.log(responseData),
-      (error) => {
-        this.error.next(error.message);
-      }
-    );
+    this.http
+      .post<{ name: string }>(this.apiURL, postData, {
+        observe: 'body',
+      })
+      .subscribe(
+        (responseData) => console.log(responseData),
+        (error) => {
+          this.error.next(error.message);
+        }
+      );
   }
 
   fetchPosts() {
@@ -62,6 +71,20 @@ export class PostService {
   }
 
   deletePosts() {
-    return this.http.delete(this.apiURL);
+    return this.http
+      .delete(this.apiURL, {
+        observe: 'events',
+      })
+      .pipe(
+        tap((event) => {
+          console.log(event);
+          if (event.type === HttpEventType.Sent) {
+            //...
+          }
+          if (event.type === HttpEventType.Response) {
+            console.log(event.body);
+          }
+        })
+      );
   }
 }
