@@ -74,6 +74,7 @@ export class PostService {
     return this.http
       .delete(this.apiURL, {
         observe: 'events',
+        responseType: 'json', // text
       })
       .pipe(
         tap((event) => {
