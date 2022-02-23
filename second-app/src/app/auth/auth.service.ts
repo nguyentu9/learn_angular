@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 
-interface AuthResponseData {
+export interface AuthResponseData {
   kind: string;
   idToken: string;
   email: string;
   refreshToken: string;
   expiresIn: string;
   localId: string;
+  registered?: boolean;
 }
 // https://firebase.google.com/docs/reference/rest/auth
 // https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=
@@ -40,5 +41,16 @@ export class AuthService {
           return throwError(() => errorMessage);
         })
       );
+  }
+
+  login(email: string, password: string) {
+    return this.http.post<AuthResponseData>(
+      'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyCjhER7mezLjUz4UzBu75q0CvYz2BxMCCk',
+      {
+        email,
+        password,
+        returnSecureToken: true,
+      }
+    );
   }
 }
