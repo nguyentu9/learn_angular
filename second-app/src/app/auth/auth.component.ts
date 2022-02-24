@@ -11,7 +11,7 @@ import { AuthResponseData, AuthService } from './auth.service';
 export class AuthComponent {
   isLoginMode = true;
   isLoading = false;
-  error: string = '';
+  error: string | null = null;
 
   authObs!: Observable<AuthResponseData>;
 
@@ -47,5 +47,9 @@ export class AuthComponent {
     );
 
     form.reset();
+  }
+
+  onHandleError() {
+    this.error = null;
   }
 }
