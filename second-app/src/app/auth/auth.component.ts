@@ -68,6 +68,7 @@ export class AuthComponent {
     const hostViewContainerRef = this.alertHost.viewContainerRef;
     hostViewContainerRef.clear();
 
+    // new version hostViewContainerRef.createComponent(AlertComponent);
     hostViewContainerRef.createComponent(alertCmpFactory);
   }
 }
